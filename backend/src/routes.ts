@@ -9,6 +9,7 @@ import { CreateCategoryController } from "./controllers/category/CreateCategoryC
 import { ListCategoryController } from "./controllers/category/ListCategoryController";
 import { CreateProductController } from "./controllers/products/CreateProductController";
 import { ListByCategoryController } from "./controllers/products/ListByCategoryController";
+import { ListByProductsController } from "./controllers/products/ListByProductsController";
 import { CreateOrderController } from "./controllers/order/CreateOrderController";
 import { RemoveOrderController } from "./controllers/order/RemoveOrderController";
 import { AddItemController } from "./controllers/order/AddItemController";
@@ -17,6 +18,7 @@ import { SendOrderController } from "./controllers/order/SendOrderController";
 import { ListOrderControllers } from "./controllers/order/ListOrderControllers";
 import { DetailOrderController } from "./controllers/order/DetailOrderController";
 import { FinishOrderController } from "./controllers/order/FinishOrderController";
+import {ListOrderControllersOrc} from "./controllers/order/ListOrderControllersOrc"
 
 import uploadConfig from "./config/multer";
 
@@ -49,6 +51,8 @@ router.get(
   new ListByCategoryController().handle
 );
 
+router.get("/products", isAthenticaded, new ListByProductsController().handle);
+
 // Rotas Order
 router.post("/order", isAthenticaded, new CreateOrderController().handle);
 router.delete("/order", isAthenticaded, new RemoveOrderController().handle);
@@ -60,6 +64,7 @@ router.delete(
 );
 router.put("/order/send", isAthenticaded, new SendOrderController().handle);
 router.get("/orders", isAthenticaded, new ListOrderControllers().handle);
+router.get("/orders/orc", isAthenticaded, new ListOrderControllersOrc().handle);
 router.get("/order/detail", isAthenticaded, new DetailOrderController().handle);
 router.put("/order/finish", isAthenticaded, new FinishOrderController().handle);
 
