@@ -2,15 +2,15 @@ import prismaClient from "../../prisma";
 
 interface OrderRequest {
   os: number;
-  name: string;
+  clientId: string;
 }
 
 class CreateOrderService {
-  async execute({ os, name }: OrderRequest) {
+  async execute({ os, clientId }: OrderRequest) {
     const order = await prismaClient.order.create({
       data: {
         os: os,
-        name: name,
+        clientId: clientId,
       },
     });
 

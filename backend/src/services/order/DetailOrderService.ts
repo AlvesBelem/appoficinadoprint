@@ -11,8 +11,10 @@ class DetailOrderService {
         orderId: orderId,
       },
       include: {
+        order: true,
         product: true,
-        Order: true,
+        service: true,
+        client: true,
       },
     });
 

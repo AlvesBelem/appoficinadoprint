@@ -29,22 +29,25 @@ model Category {
   updated_at DateTime? @default(now())
   // relacionando categories com products
   products   Product[]
+  services   Service[]
 
   @@map("categories")
 }
 
 model Product {
-  id          String    @id @default(uuid())
-  name        String
-  price       String
-  description String
-  banner      String
-  created_at  DateTime? @default(now())
-  updated_at  DateTime? @default(now())
+  id              String          @id @default(uuid())
+  name            String
+  price           String
+  description     String
+  banner          String
+  stock           Float?
+  created_at      DateTime?       @default(now())
+  updated_at      DateTime?       @default(now())
   // relação de products com categories
-  Category    Category  @relation(fields: [categoryId], references: [id])
-  categoryId  String
-  Items       Item[]
+  Category        Category        @relation(fields: [categoryId], references: [id])
+  categoryId      String
+  Items           Item[]
+  items_purchases Item_Purchase[]
 
   @@map("products")
 }
@@ -58,6 +61,8 @@ model Order {
   created_at DateTime? @default(now())
   updated_at DateTime? @default(now())
   items      Item[]
+  Client     Client?   @relation(fields: [clientId], references: [id])
+  clientId   String?
 
   @@map("orders")
 }
@@ -69,8 +74,103 @@ model Item {
   updated_at DateTime? @default(now())
   order      Order     @relation(fields: [orderId], references: [id])
   orderId    String
-  product    Product   @relation(fields: [productId], references: [id])
-  productId  String
+  product    Product?  @relation(fields: [productId], references: [id])
+  productId  String?
+  service    Service?  @relation(fields: [serviceId], references: [id])
+  serviceId  String?
+  client     Client?   @relation(fields: [clientId], references: [id])
+  clientId   String?
 
   @@map("items")
+}
+
+model Purchase_order {
+  id              String          @id @default(uuid())
+  os              Int             @default(autoincrement())
+  status          Boolean         @default(false)
+  draft           Boolean         @default(true)
+  name            String?
+  created_at      DateTime?       @default(now())
+  updated_at      DateTime?       @default(now())
+  supplier        Supplier?       @relation(fields: [supplierId], references: [id])
+  supplierId      String?
+  items_purchases Item_Purchase[]
+
+  @@map("purchase_orders")
+}
+
+model Item_Purchase {
+  id               String          @id @default(uuid())
+  amount           Int
+  created_at       DateTime?       @default(now())
+  updated_at       DateTime?       @default(now())
+  product          Product?        @relation(fields: [productId], references: [id])
+  productId        String?
+  service          Service?        @relation(fields: [serviceId], references: [id])
+  serviceId        String?
+  purchase_order   Purchase_order? @relation(fields: [purchase_orderId], references: [id])
+  purchase_orderId String?
+  supplier         Supplier?       @relation(fields: [supplierId], references: [id])
+  supplierId       String?
+
+  @@map("items_purchases")
+}
+
+model Service {
+  id              String          @id @default(uuid())
+  name            String
+  price           String
+  description     String
+  banner          String
+  created_at      DateTime?       @default(now())
+  updated_at      DateTime?       @default(now())
+  // relação de products com categories
+  Category        Category        @relation(fields: [categoryId], references: [id])
+  categoryId      String
+  Items           Item[]
+  items_purchases Item_Purchase[]
+
+  @@map("services")
+}
+
+model Client {
+  id           String    @id @default(uuid())
+  name         String
+  nickname     String?
+  email        String?
+  whatsapp     String?
+  contact      String?
+  address      String?
+  city         String?
+  neighborhood String?
+  zipcode      String?
+  photo        String?
+  created_at   DateTime? @default(now())
+  updated_at   DateTime? @default(now())
+  // relação de products com categories
+  orders       Order[]
+  Items        Item[]
+
+  @@map("clients")
+}
+
+model Supplier {
+  id              String           @id @default(uuid())
+  name            String
+  nickname        String?
+  email           String?
+  whatsapp        String?
+  contact         String?
+  address         String?
+  city            String?
+  neighborhood    String?
+  zipcode         String?
+  photo           String?
+  created_at      DateTime?        @default(now())
+  updated_at      DateTime?        @default(now())
+  // relação de products com categories
+  purchase_orders Purchase_order[]
+  items_purchases Item_Purchase[]
+
+  @@map("Suppliers")
 }
