@@ -31,6 +31,12 @@ import { AddItemPurchaseController } from "./controllers/Purchase_order/AddItemP
 import { CreateOrderPurchaseController } from "./controllers/Purchase_order/CreateOrderPurchaseController";
 import { DetailOrderPurchaseController } from "./controllers/Purchase_order/DetailOrderPurchaseController";
 import { FinishOrderPurchaseController } from "./controllers/Purchase_order/FinishOrderPurchaseController";
+import { ListOrderPurchaseControllers } from "./controllers/Purchase_order/ListOrderPurchaseControllers";
+import { ListOrderPurchaseControllersFinish } from "./controllers/Purchase_order/ListOrderPurchaseControllersFinish";
+import { ListOrderPurchaseControllersOrc } from "./controllers/Purchase_order/ListOrderPurchaseControllersOrc";
+import { RemoveOrderPurchaseController } from "./controllers/Purchase_order/RemoveOrderPurchaseController";
+import { RemoveItemPurchaseController } from "./controllers/Purchase_order/RemoveItemPurchaseController";
+import { SendOrderPurchaseController } from "./controllers/Purchase_order/SendOrderPurchaseController";
 
 import uploadConfig from "./config/multer";
 
@@ -146,6 +152,42 @@ router.put(
   "/order_purchase/finish",
   isAthenticaded,
   new FinishOrderPurchaseController().handle
+);
+
+router.get(
+  "/orders_purchases",
+  isAthenticaded,
+  new ListOrderPurchaseControllers().handle
+);
+
+router.get(
+  "/orders_purchase/finish",
+  isAthenticaded,
+  new ListOrderPurchaseControllersFinish().handle
+);
+
+router.get(
+  "/orders_purchase/orc",
+  isAthenticaded,
+  new ListOrderPurchaseControllersOrc().handle
+);
+
+router.delete(
+  "/order_purchase",
+  isAthenticaded,
+  new RemoveOrderPurchaseController().handle
+);
+
+router.delete(
+  "/order_purchase/remove",
+  isAthenticaded,
+  new RemoveItemPurchaseController().handle
+);
+
+router.put(
+  "/order_purchase/send",
+  isAthenticaded,
+  new SendOrderPurchaseController().handle
 );
 
 export { router };

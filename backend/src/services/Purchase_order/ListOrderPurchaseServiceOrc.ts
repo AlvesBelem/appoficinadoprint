@@ -1,8 +1,8 @@
 import prismaClient from "../../prisma";
 
-class ListOrderServiceOrc {
+class ListOrderPurchaseServiceOrc {
   async execute() {
-    const orders = await prismaClient.order.findMany({
+    const ordersPurchases = await prismaClient.purchase_order.findMany({
       where: {
         draft: true,
         status: false,
@@ -12,8 +12,8 @@ class ListOrderServiceOrc {
       },
     });
 
-    return orders;
+    return ordersPurchases;
   }
 }
 
-export { ListOrderServiceOrc };
+export { ListOrderPurchaseServiceOrc };

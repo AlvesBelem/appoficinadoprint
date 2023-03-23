@@ -40,7 +40,6 @@ model Product {
   price           String
   description     String
   banner          String
-  stock           Float?
   created_at      DateTime?       @default(now())
   updated_at      DateTime?       @default(now())
   // relação de products com categories
